@@ -15,11 +15,15 @@ import plotly.graph_objects as go
 
 # Authorising the app
 # Preparing values
+verification_code = os.getenv('VERIFICATION_CODE')
+credentials = ee.Authenticate(verification_code)
+        
+        # Authorize access to Earth Engine
+ee.Initialize(credentials='persistent')
+#json_data = st.secrets["json_data"]
+#service_account = st.secrets["service_account"]
+#credentials = ee.ServiceAccountCredentials(service_account, key_data=json_data)
 
-json_data = st.secrets["json_data"]
-service_account = st.secrets["service_account"]
-credentials = ee.ServiceAccountCredentials(service_account, key_data=json_data)
-ee.Initialize(credentials)
 img = Image.open('data/Vasudha_Logo_PNG.png')
 # Resize the image
 resized_img = img.resize((300, 300))  # Adjust the width and height as needed
