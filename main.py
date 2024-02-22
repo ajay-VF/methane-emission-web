@@ -12,7 +12,7 @@ import rasterio
 import streamlit as st
 from PIL import Image
 import plotly.graph_objects as go
-
+os.path.exists()
 # Authorising the app
 # Preparing values
 
