@@ -20,12 +20,15 @@ json_data = st.secrets["json_data"]
 service_account = st.secrets["service_account"]
 credentials = ee.ServiceAccountCredentials(service_account, key_data=json_data)
 ee.Initialize(credentials)
+
+
 # Get the path to the directory containing the script
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Define the path to the image file
 image_path = os.path.join(current_directory, 'data', 'Vasudha_Logo_PNG.PNG')
-
+print("Current directory:", current_directory)
+print("Image path:", image_path)
 # Open the image file
 img = Image.open(image_path)
 # Resize the image
