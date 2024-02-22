@@ -12,7 +12,7 @@ import rasterio
 import streamlit as st
 from PIL import Image
 import plotly.graph_objects as go
-os.path.exists()
+
 # Authorising the app
 # Preparing values
 
@@ -20,8 +20,14 @@ json_data = st.secrets["json_data"]
 service_account = st.secrets["service_account"]
 credentials = ee.ServiceAccountCredentials(service_account, key_data=json_data)
 ee.Initialize(credentials)
-img = Image.open('data/Vasudha_Logo_PNG.PNG')
+# Get the path to the directory containing the script
+current_directory = os.path.dirname(os.path.abspath(__file__))
 
+# Define the path to the image file
+image_path = os.path.join(current_directory, 'data', 'Vasudha_Logo_PNG.PNG')
+
+# Open the image file
+img = Image.open(image_path)
 # Resize the image
 resized_img = img.resize((300, 300))  # Adjust the width and height as needed
 
