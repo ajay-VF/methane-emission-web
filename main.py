@@ -12,9 +12,7 @@ import rasterio
 import streamlit as st
 from PIL import Image
 import plotly.graph_objects as go
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
+
 # Authorising the app
 # Preparing values
 
