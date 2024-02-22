@@ -8,3 +8,4 @@ rasterio
 streamlit
 pillow
 plotly
+openpyxl
