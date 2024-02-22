@@ -18,7 +18,7 @@ import plotly.graph_objects as go
 
 json_data = st.secrets["json_data"]
 service_account = st.secrets["service_account"]
-credentials = ee.ServiceAccountCredentials(service_account, key_data=json_object)
+credentials = ee.ServiceAccountCredentials(service_account, key_data=json_data)
 ee.Initialize(credentials)
 img = Image.open('data/Vasudha_Logo_PNG.PNG')
 
