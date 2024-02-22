@@ -12,6 +12,13 @@ import rasterio
 import streamlit as st
 from PIL import Image
 import plotly.graph_objects as go
+# Authorising the app
+# Preparing values
+
+json_data = st.secrets["json_data"]
+service_account = st.secrets["service_account"]
+credentials = ee.ServiceAccountCredentials(service_account, key_data=json_object)
+ee.Initialize(credentials)
 img = Image.open('data/Vasudha_Logo_PNG.PNG')
 
 # Resize the image
