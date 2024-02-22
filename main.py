@@ -1,6 +1,5 @@
 from datetime import datetime
 import os
-import openpyxl
 import pandas as pd
 import requests
 import zipfile
@@ -33,7 +32,7 @@ col1.image(resized_img, use_column_width=True)
 
 # Display the title in the second column
 col2.title('Methane Emission Calculation Web App')
-district_data = pd.read_excel('data/District_corrected_names.xlsx')
+district_data = pd.read_csv('data/District_corrected_names.csv')
 states = district_data['STATE'].unique().tolist()  # Get unique states
 st.write('Select state and district')
 col1, col2 = st.columns(2)
