@@ -55,7 +55,7 @@ def data_landsat8_download(districts, selected_date,district_id,state ):
     
     # Load the shapefile for the given district from Earth Engine assets
     def load_district_shapefile(district_id):
-        return ee.FeatureCollection("https://code.earthengine.google.com/?asset=projects/ee-my-vikas-2413/assets/DISTRICTs_Corrected").filter(ee.Filter.equals('DISTRICT_L', str(district_id)))
+        return ee.FeatureCollection("projects/earth-engine-webapp/assets/DISTRICTs_Corrected").filter(ee.Filter.equals('DISTRICT_L', str(district_id)))
       
     polygon = load_district_shapefile(district_id)
     # Visualization parameters
