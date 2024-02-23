@@ -9,4 +9,4 @@ streamlit
 pillow
 plotly
 openpyxl
-scikit-learn
+scikit-learn==1.4.0
