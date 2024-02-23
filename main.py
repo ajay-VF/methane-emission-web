@@ -48,11 +48,10 @@ page = st.sidebar.selectbox("Select a page", ["Methane for Selected Date", "Mont
 
 district_data1=district_data[district_data['STATE'] == state_dropdown]
 district_id=district_data1[district_data1['District_1'] == district_dropdown]['DISTRICT_L'].values[0]
-# Google Earth Engine initialization and function to load shapefiles
-ee.Initialize()
+
 def data_landsat8_download(districts, selected_date,district_id,state ):
 
-    ee.Initialize()
+    
     # Load the shapefile for the given district from Earth Engine assets
     def load_district_shapefile(district_id):
         return ee.FeatureCollection("projects/ee-my-vikas-2413/assets/DISTRICTs_Corrected").filter(ee.Filter.equals('DISTRICT_L', str(district_id)))
