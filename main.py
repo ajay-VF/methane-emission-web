@@ -12,6 +12,7 @@ import rasterio
 import streamlit as st
 from PIL import Image
 import plotly.graph_objects as go
+import json
 
 json_data = st.secrets["json_data"]
 service_account = st.secrets["service_account"]
