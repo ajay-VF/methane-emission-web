@@ -142,59 +142,61 @@ if page == "Methane for Selected Date":
     selected_date=selected_start_time
     state=state_dropdown
     districts=district_dropdown
-    download_url=data_landsat8_download(districts, selected_date,district_id,state )
-
-    response = requests.get(download_url)
-    zip_file = zipfile.ZipFile(BytesIO(response.content))
-    file_names = zip_file.namelist()
-
-    # Function to process GeoTIFF files
-    first_height=None
-    first_width=None
-    def process_geotiffs():
-        global first_height, first_width
-        flattened_arrays = []
-        for file_name in file_names:
-            if not file_name.endswith('.tif'):
-                continue
-            with zip_file.open(file_name) as src:
-                with rasterio.open(BytesIO(src.read())) as tif_dataset:
-                    data = tif_dataset.read(1)
-                    flattened_arrays.append(data.flatten())
-                    if first_height is None and first_width is None:
-                        first_height = tif_dataset.height
-                        first_width = tif_dataset.width
-        final_array = np.column_stack(flattened_arrays)
-        return final_array,first_height,first_width
-
-
-    final_array,first_height,first_width = process_geotiffs()
-    print("Shape of the final flattened array:", final_array.shape)
-    print("Initial height of the first GeoTIFF file:", first_height)
-    print("Initial width of the first GeoTIFF file:", first_width)
-    final_array = np.nan_to_num(final_array, nan=-9999)
-
-    # Machine learning model loading and predictions
-    model_path = 'data/model_full_all_band.joblib'
-    model = joblib.load(model_path)
-    prediction = model.predict(final_array)
-    prediction[prediction == prediction[0]] = np.nan
-    prediction = np.nan_to_num(prediction, nan=0)
-
-    methane = (prediction * (0.706 * 10000 * 1113.2 * 1113.2) / (1000 * 1000000))
-    total_methane = (prediction * (0.706 * 10000 * 1113.2 * 1113.2) / (1000 * 1000000)).sum()
-
-    # Methane visualization
-    methane_image = methane.reshape(first_height, first_width)
-    methane_image[methane_image == 0] = np.nan
-
-
-    st.plotly_chart(plot_prediction(prediction,selected_date))
-
-
-
-
-
+    if st.button(f'Download methane prediction for {districts} on {selected_start_date}'):
+    
+        download_url=data_landsat8_download(districts, selected_date,district_id,state )
+    
+        response = requests.get(download_url)
+        zip_file = zipfile.ZipFile(BytesIO(response.content))
+        file_names = zip_file.namelist()
+    
+        # Function to process GeoTIFF files
+        first_height=None
+        first_width=None
+        def process_geotiffs():
+            global first_height, first_width
+            flattened_arrays = []
+            for file_name in file_names:
+                if not file_name.endswith('.tif'):
+                    continue
+                with zip_file.open(file_name) as src:
+                    with rasterio.open(BytesIO(src.read())) as tif_dataset:
+                        data = tif_dataset.read(1)
+                        flattened_arrays.append(data.flatten())
+                        if first_height is None and first_width is None:
+                            first_height = tif_dataset.height
+                            first_width = tif_dataset.width
+            final_array = np.column_stack(flattened_arrays)
+            return final_array,first_height,first_width
+    
+    
+        final_array,first_height,first_width = process_geotiffs()
+        print("Shape of the final flattened array:", final_array.shape)
+        print("Initial height of the first GeoTIFF file:", first_height)
+        print("Initial width of the first GeoTIFF file:", first_width)
+        final_array = np.nan_to_num(final_array, nan=-9999)
+    
+        # Machine learning model loading and predictions
+        model_path = 'data/model_full_all_band.joblib'
+        model = joblib.load(model_path)
+        prediction = model.predict(final_array)
+        prediction[prediction == prediction[0]] = np.nan
+        prediction = np.nan_to_num(prediction, nan=0)
+    
+        methane = (prediction * (0.706 * 10000 * 1113.2 * 1113.2) / (1000 * 1000000))
+        total_methane = (prediction * (0.706 * 10000 * 1113.2 * 1113.2) / (1000 * 1000000)).sum()
+    
+        # Methane visualization
+        methane_image = methane.reshape(first_height, first_width)
+        methane_image[methane_image == 0] = np.nan
+    
+    
+        st.plotly_chart(plot_prediction(prediction,selected_date))
+    
+    
+    
+    
+    
 
 
 
