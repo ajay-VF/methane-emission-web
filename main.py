@@ -193,7 +193,7 @@ if page == "Methane for Selected Date":
     
         st.plotly_chart(plot_prediction(prediction,selected_date))
 
-    st.link_button("Go Real Time Satellite imeges prediction", "https://methane-emission-state-wise.streamlit.app/")
+    st.link_button("Go comparision between district and state Methane emission", "https://methane-emission-state-wise.streamlit.app/")
     
     
     
