@@ -125,13 +125,13 @@ def plot_prediction(prediction,selected_date):
         xaxis=dict(title='Km', scaleanchor='y', scaleratio=1),
         yaxis=dict(title='km'),
         coloraxis_colorbar=dict(
-            title=f'Total Methane concentration on {selected_date}  {methane_sum} tonnes',
+            title=f'Total Methane concentration on {selected_date} in Kg',
         )
     )
     # Create the figure
     fig = go. Figure(data=[heatmap], layout=layout)
     # Show the figure
-    return fig
+    return fig,methane_sum
 if page == "Methane for Selected Date":
     min_date = datetime(2014, 1, 1)
     max_date = datetime(2023,12,1)
@@ -190,9 +190,10 @@ if page == "Methane for Selected Date":
         # Methane visualization
         methane_image = methane.reshape(first_height, first_width)
         methane_image[methane_image == 0] = np.nan
+        fig,methane_sum=plot_prediction(prediction,selected_date)
     
-    
-        st.plotly_chart(plot_prediction(prediction,selected_date))
+        st.plotly_chart(fig)
+        st.write(f'Total methan concentration in tonnes is {methane_sum}')
 
     st.link_button("Compare Methane concentration monthly/yearly", "https://methane-emission-state-wise.streamlit.app/")
     
