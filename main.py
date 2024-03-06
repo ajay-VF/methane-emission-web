@@ -41,7 +41,7 @@ col1.image(resized_img, use_column_width=True)
 col2.title('Methane Emission Calculation Web App')
 district_data = pd.read_csv('data/District_corrected_names.csv')
 states = district_data['STATE'].unique().tolist()  # Get unique states
-st.write('Select state and district')
+
 col1, col2 = st.columns(2)
 with col1:
     state_dropdown = st.selectbox('State:', states)
@@ -107,6 +107,7 @@ def data_landsat8_download(districts, selected_date,district_id,state ):
     return (download_url)
 def plot_prediction(prediction,selected_date):
     methane = (prediction * (0.706 * 10000 * 1113.2 * 1113.2) / (1000 * 1000000))
+    methane_sum=round(methane.sum()/1000,2)
     methane_image = methane.reshape(first_height, first_width)
     methane_image[methane_image == 0] = np.nan
     # Normalize the methane_image between 0 and 1
@@ -124,7 +125,7 @@ def plot_prediction(prediction,selected_date):
         xaxis=dict(title='Km', scaleanchor='y', scaleratio=1),
         yaxis=dict(title='km'),
         coloraxis_colorbar=dict(
-            title=f'Methane concentration Kg on {selected_date}',
+            title=f'Total Methane concentration on {selected_date}  {methane_sum} tonnes',
         )
     )
     # Create the figure
@@ -142,7 +143,7 @@ if page == "Methane for Selected Date":
     selected_date=selected_start_time
     state=state_dropdown
     districts=district_dropdown
-    if st.button(f'Download methane prediction for {districts} on {selected_start_date}'):
+    if st.button(f'Submit'):
     
         download_url=data_landsat8_download(districts, selected_date,district_id,state )
     
@@ -193,7 +194,7 @@ if page == "Methane for Selected Date":
     
         st.plotly_chart(plot_prediction(prediction,selected_date))
 
-    st.link_button("Go comparision between district and state Methane emission", "https://methane-emission-state-wise.streamlit.app/")
+    st.link_button("Compare Methane concentration monthly/yearly", "https://methane-emission-state-wise.streamlit.app/")
     
     
     
